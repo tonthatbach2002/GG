@@ -24,10 +24,24 @@ def gauss(matrix,m,n):
                 if matrix[k][p]!=0:
                     multi= matrix[k][p]+0.0 # gia tri can` nhan^ len 
                     for j in range (p,n,1):
-                        matrix[k][j]-=(multi*matrix[i][j])+0.0 #mat[i][j] la dong` cua? pivot
-                        
+                        matrix[k][j]-=(multi*matrix[i][j])+0.0 #mat[i][j] la dong` cua? pivot     
             p+=1
+    
     return matrix
+def Jordan(a,m,n):
+    p=0
+    for i in range(m-1,-1,-1):
+            for j in range(n-1):
+                if a[i][j]!=0:
+                    for k in range(i-1,-1,-1):
+                        if a[k][j]!=0:
+                            multi = a[k][j]
+                            for l in range(j,n,1):
+                                a[k][l]-=multi*a[i][l]
+                    break
+    return a
+
+
 def InfiniteSol(matrix,m,n):
     check = False
     dem =0
@@ -47,10 +61,18 @@ def InfiniteSolSubtitution(a,m,n):
                 temp=a[i][n-1]
                 for k in range (j+1,n-1):
                     temp = str(temp)
+
+                    if(a[i][k]==0): continue
+                    if x[k]=='none':
+                        x[k]='a'+str(k)
+                        temp=temp+'-'+str(a[i][k])+str(x[k])
+                    else: temp=temp+'-'+str(a[i][k])+str(x[k])
+
                     if x[k]=='none':
                         x[k]='a'+str(k)
                         temp=temp+'-'+str(a[i][k])+str(x[k])
                     else: temp=temp+'-'+str(a[i][k])+'x'+str(x[k])
+
                 if isinstance(temp,str):
                     temp='('+temp+')'
                 else: temp='('+temp+')'
@@ -79,10 +101,21 @@ matrix4=[[1,2,-2,3],[3,-1,1,1],[-1,5,-5,5]]
 m =len(matrix4)
 n=len(matrix4[1])
 gauss(matrix4,m,n)
+
+Jordan(matrix4,m,n)
+
+if(InfiniteSol(matrix4,m,n)==True): x=InfiniteSolSubtitution(matrix4,m,n)
+else: x=subtitution(matrix4,m,n)
+print(*matrix4,sep='\n')
+print(x)
+# print(x)
+
+
 print(*matrix4,sep='\n')
 if(InfiniteSol(matrix4,m,n)==True): x=InfiniteSolSubtitution(matrix4,m,n)
 else: x=subtitution(matrix4,m,n)
 print(x)
+
 # x=subtitution(matrix,m,n)
 # print(x)
 
@@ -90,4 +123,5 @@ print(x)
 # print(*matrix,sep='\n')
 # print(x)
 
+    
     
